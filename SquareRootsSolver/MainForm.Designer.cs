@@ -64,6 +64,7 @@
             this.itsMenuItem_File_NewGrid.Name = "itsMenuItem_File_NewGrid";
             this.itsMenuItem_File_NewGrid.Size = new System.Drawing.Size(152, 22);
             this.itsMenuItem_File_NewGrid.Text = "New Grid";
+            this.itsMenuItem_File_NewGrid.Click += new System.EventHandler(this.ItsMenuItem_File_NewGrid_Click);
             // 
             // toolStripSeparator1
             // 
@@ -87,7 +88,7 @@
             // solveToolStripMenuItem
             // 
             this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
-            this.solveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.solveToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.solveToolStripMenuItem.Text = "Solve";
             // 
             // MainForm
