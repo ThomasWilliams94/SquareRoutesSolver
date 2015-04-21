@@ -8,11 +8,20 @@ using System.Windows.Forms;
 
 namespace SquareRootsSolver
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        // The version number of the application
+        public string theirVersion = "0.0.1";
+
+        #region Members
+
+        #endregion
+
+        public MainForm()
         {
             InitializeComponent();
         }
+
+        
     }
 }
