@@ -31,6 +31,14 @@ namespace SquareRootsSolver
 
         #region Properties
 
+        public int NormalCellSize
+        {
+            get
+            {
+                return itsNormalCellSize;
+            }
+        }
+
         public int PositionX
         {
             get
@@ -62,6 +70,7 @@ namespace SquareRootsSolver
             this.Size = new Size(itsExpandedCellSize, itsExpandedCellSize);
             this.Location = new Point(itsPositionX - (itsExpandedCellSize / 2), 
                 itsPositionY - (itsExpandedCellSize / 2) );
+            this.BringToFront();
         }
 
         private void GridCell_MouseLeave(object sender, EventArgs e)
@@ -69,6 +78,28 @@ namespace SquareRootsSolver
             this.Size = new Size(itsNormalCellSize, itsNormalCellSize);
             this.Location = new Point(itsPositionX - (itsNormalCellSize / 2), 
                 itsPositionY -  (itsNormalCellSize / 2));
+            this.BringToFront();
+        }
+
+        private void GridCell_Click(object sender, EventArgs e)
+        {
+            Color currentColour = this.BackColor;
+
+            if(currentColour == Color.White) 
+            {
+                this.BackColor = Color.OldLace;
+                return;
+            }
+            if(currentColour == Color.OldLace) 
+            {
+                this.BackColor = Color.LightGray;
+                return;
+            }
+            if(currentColour == Color.LightGray) 
+            { 
+                this.BackColor = Color.White;
+                return;
+            }
         }
 
     }
