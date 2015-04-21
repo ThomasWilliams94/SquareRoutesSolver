@@ -31,6 +31,14 @@ namespace SquareRootsSolver
 
         #region Properties
 
+        public int NormalCellSize
+        {
+            get
+            {
+                return itsNormalCellSize;
+            }
+        }
+
         public int PositionX
         {
             get

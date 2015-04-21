@@ -20,6 +20,8 @@ namespace SquareRootsSolver
         private int itsRow;
         private int itsColumn;
 
+        private Dictionary<string, int> itsKnownSidesAndValues = new Dictionary<string,int>();
+
         // These should only ever be one of three values: -1, 0, or 1.
         //        -1 => it's never been assigned
         //         0 => that side is 'blocked'
@@ -41,6 +43,18 @@ namespace SquareRootsSolver
 
         #region Properties
 
+        public Dictionary<string, int> KnownSidesAndValues
+        {
+            get
+            {
+                return itsKnownSidesAndValues;
+            }
+            set
+            {
+                itsKnownSidesAndValues = value;
+            }
+        }
+
         public int PosX
         {
             get
@@ -50,6 +64,82 @@ namespace SquareRootsSolver
             set
             {
                 itsPosX = value;
+            }
+        }
+
+        public int ValueAbove
+        {
+            get
+            {
+                return itsValueAbove;
+            }
+            set
+            {
+                itsValueAbove = value;
+
+                itsKnownSidesAndValues.Add("Above", value);
+
+                if (itsKnownSidesAndValues.Count == 4)
+                {
+                    itsAllFourKnown = true;
+                }
+            }
+        }
+
+        public int ValueBelow
+        {
+            get
+            {
+                return itsValueBelow;
+            }
+            set
+            {
+                itsValueBelow = value;
+
+                itsKnownSidesAndValues.Add("Below", value);
+
+                if (itsKnownSidesAndValues.Count == 4)
+                {
+                    itsAllFourKnown = true;
+                }
+            }
+        }
+
+        public int ValueLeft
+        {
+            get
+            {
+                return itsValueLeft;
+            }
+            set
+            {
+                itsValueLeft = value;
+
+                itsKnownSidesAndValues.Add("Left", value);
+
+                if (itsKnownSidesAndValues.Count == 4)
+                {
+                    itsAllFourKnown = true;
+                }
+            }
+        }
+
+        public int ValueRight
+        {
+            get
+            {
+                return itsValueRight;
+            }
+            set
+            {
+                itsValueRight = value;
+
+                itsKnownSidesAndValues.Add("Right", value);
+
+                if (itsKnownSidesAndValues.Count == 4)
+                {
+                    itsAllFourKnown = true;
+                }
             }
         }
 
@@ -105,7 +195,7 @@ namespace SquareRootsSolver
 
         #region Public Methods
 
-        public bool CheckAllFourKnownForAllCells(List<SolverCellInfo> theListOfCells) 
+        static public bool CheckAllFourKnownForAllCells(List<SolverCellInfo> theListOfCells) 
         {
             foreach (SolverCellInfo sci in theListOfCells)
             {

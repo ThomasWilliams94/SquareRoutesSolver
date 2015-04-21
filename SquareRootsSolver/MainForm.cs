@@ -22,7 +22,9 @@ namespace SquareRootsSolver
 
         // Contains a list of the SolverCellInfos used for solving 
         // (and eventually drawing the solution)
-        List<SolverCellInfo> itsSolverCellInfos;
+        List<SolverCellInfo> itsSolverCellInfos = new List<SolverCellInfo>();
+
+        private bool itsDrawingSolution = false;
 
         #endregion
 
@@ -35,8 +37,11 @@ namespace SquareRootsSolver
 
         #region Private Methods
 
-        private void SolvePuzzle()
+        private bool SolvePuzzle()
         {
+            // Clear previous SolverCellInfos
+            itsSolverCellInfos.Clear();
+
             // Counter for assigning row number
             int iRow = 0;
             // Counter for assigning column number
@@ -51,17 +56,19 @@ namespace SquareRootsSolver
                 sci.Column = iColumn;
 
                 iRow++;
-                iColumn++;
+                //iColumn++;
 
                 if(iRow == itsGridSize) 
                 {
                     iRow = 0;
+                    iColumn++;
                 }
                 
-                if(iColumn == itsGridSize) 
-                {
-                    iColumn = 0;
-                }
+                //if(iColumn == itsGridSize) 
+                //{
+                //    iColumn = 0;
+                //    iRow++;
+                //}
 
                 itsSolverCellInfos.Add(sci);
 
@@ -73,30 +80,97 @@ namespace SquareRootsSolver
                 if (sci.Row == 0) 
                 {
                     sci.ValueAbove = 0;
+                    //sci.KnownSidesAndValues.Add("Above", 0);
                 }
 
                 if (sci.Row == itsGridSize - 1)
                 {
                     sci.ValueBelow = 0;
+                    //sci.KnownSidesAndValues.Add("Below", 0);
                 }
 
                 if (sci.Column == 0)
                 {
                     sci.ValueLeft = 0;
+                    //sci.KnownSidesAndValues.Add("Left", 0);
                 }
 
                 if (sci.Column == itsGridSize - 1)
                 {
                     sci.ValueRight = 0;
+                    //sci.KnownSidesAndValues.Add("Right", 0);
                 }
+            }
+
+            foreach (SolverCellInfo sci in itsSolverCellInfos)
+            {
+                CheckTwoSidesOfSameValueKnown(sci);
             }
 
             if (SolverCellInfo.CheckAllFourKnownForAllCells(itsSolverCellInfos))
             {
-                return;
+                return true;
             }
 
-            return;
+            return false;
+        }
+
+        private void CheckTwoSidesOfSameValueKnown(SolverCellInfo theSolverCellInfo) 
+        {
+            // Check there are two sides known
+            if (theSolverCellInfo.KnownSidesAndValues.Count == 2)
+            {
+                List<int> theTwoValues = new List<int>();
+                
+                // Now check that they are both the same value
+                Dictionary<string,int>.ValueCollection values = theSolverCellInfo.KnownSidesAndValues.Values;
+
+                foreach (int value in values)
+                {
+                    theTwoValues.Add(value);
+                }
+
+                if (theTwoValues[0] == theTwoValues[1])
+                {
+                    // now we know the other two sides. 
+
+                    // valueToAdd will be 0 if the above value is 1 or 1 if 
+                    int valueToAdd = Math.Abs(theTwoValues[0] - 1);
+                                        
+                    if(!theSolverCellInfo.KnownSidesAndValues.ContainsKey("Above") ) 
+                    {
+                        theSolverCellInfo.ValueAbove = valueToAdd;
+                        //theSolverCellInfo.KnownSidesAndValues.Add("Above", valueToAdd);
+                    }
+
+                    if (!theSolverCellInfo.KnownSidesAndValues.ContainsKey("Below"))
+                    {
+                        theSolverCellInfo.ValueBelow = valueToAdd;
+                        //theSolverCellInfo.KnownSidesAndValues.Add("Below", valueToAdd);
+                    }
+
+                    if (!theSolverCellInfo.KnownSidesAndValues.ContainsKey("Left"))
+                    {
+                        theSolverCellInfo.ValueLeft = valueToAdd;
+                        //theSolverCellInfo.KnownSidesAndValues.Add("Left", valueToAdd);
+                    }
+
+                    if (!theSolverCellInfo.KnownSidesAndValues.ContainsKey("Right"))
+                    {
+                        theSolverCellInfo.ValueRight = valueToAdd;
+                        //theSolverCellInfo.KnownSidesAndValues.Add("Right", valueToAdd);
+                    }
+
+                }
+            }
+        }
+
+        private void DrawSolution()
+        {
+            itsDrawingSolution = true;
+
+            this.Refresh();
+
         }
 
         #endregion
@@ -158,6 +232,72 @@ namespace SquareRootsSolver
 
             newGridDialog.Show();
 
+        }
+
+        private void ItsMenuItems_Tools_Solve_Click(object sender, EventArgs e)
+        {
+            if (SolvePuzzle()) 
+            {
+                DrawSolution();
+            }                                        
+                
+        }
+
+        private void MainForm_Paint(object sender, PaintEventArgs e)
+        {       
+            
+            if (itsDrawingSolution)
+            {
+                foreach (GridCell gridCell in itsGridCells)
+                {
+                    gridCell.SendToBack();
+                    gridCell.BackColor = Color.Transparent;
+                    gridCell.Hide();
+                }
+
+                GridCell dummyGridCell = new GridCell();
+
+                Graphics g = e.Graphics;
+
+                Brush brush = new SolidBrush(Color.Black);
+
+                Pen pen = new Pen(brush, 4);
+
+                foreach (SolverCellInfo sci in itsSolverCellInfos)
+                {
+                    Point ctrPoint = new Point(sci.PosX , 
+                        sci.PosY );
+                                        
+                    if (sci.ValueAbove == 1)
+                    {
+                        Point newPoint = new Point(ctrPoint.X, ctrPoint.Y - dummyGridCell.NormalCellSize/2);
+                        g.DrawLine(pen, ctrPoint, newPoint);
+                    }
+
+                    if (sci.ValueBelow == 1) 
+                    {
+                        Point newPoint = new Point(ctrPoint.X, ctrPoint.Y + dummyGridCell.NormalCellSize/2);
+                        g.DrawLine(pen, ctrPoint, newPoint);
+                    }
+
+                    if (sci.ValueLeft == 1) 
+                    {
+                        Point newPoint = new Point(ctrPoint.X - dummyGridCell.NormalCellSize / 2, ctrPoint.Y);
+                        g.DrawLine(pen, ctrPoint, newPoint);
+                    }
+
+                    if (sci.ValueRight == 1)
+                    {
+                        Point newPoint = new Point(ctrPoint.X + dummyGridCell.NormalCellSize / 2, ctrPoint.Y);
+                        g.DrawLine(pen, ctrPoint, newPoint);
+                    }
+                }
+
+                
+
+                itsDrawingSolution = false;
+            }
+            
         }
 
         
