@@ -62,6 +62,7 @@ namespace SquareRootsSolver
             this.Size = new Size(itsExpandedCellSize, itsExpandedCellSize);
             this.Location = new Point(itsPositionX - (itsExpandedCellSize / 2), 
                 itsPositionY - (itsExpandedCellSize / 2) );
+            this.BringToFront();
         }
 
         private void GridCell_MouseLeave(object sender, EventArgs e)
@@ -69,6 +70,7 @@ namespace SquareRootsSolver
             this.Size = new Size(itsNormalCellSize, itsNormalCellSize);
             this.Location = new Point(itsPositionX - (itsNormalCellSize / 2), 
                 itsPositionY -  (itsNormalCellSize / 2));
+            this.BringToFront();
         }
 
         private void GridCell_Click(object sender, EventArgs e)
