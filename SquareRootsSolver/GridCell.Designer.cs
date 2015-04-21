@@ -37,7 +37,8 @@
             this.BackColor = System.Drawing.Color.White;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Name = "GridCell";
-            this.Size = new System.Drawing.Size(38, 38);
+            this.Size = new System.Drawing.Size(40, 40);
+            this.Click += new System.EventHandler(this.GridCell_Click);
             this.MouseEnter += new System.EventHandler(this.GridCell_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.GridCell_MouseLeave);
             this.ResumeLayout(false);

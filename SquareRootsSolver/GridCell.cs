@@ -71,5 +71,26 @@ namespace SquareRootsSolver
                 itsPositionY -  (itsNormalCellSize / 2));
         }
 
+        private void GridCell_Click(object sender, EventArgs e)
+        {
+            Color currentColour = this.BackColor;
+
+            if(currentColour == Color.White) 
+            {
+                this.BackColor = Color.OldLace;
+                return;
+            }
+            if(currentColour == Color.OldLace) 
+            {
+                this.BackColor = Color.LightGray;
+                return;
+            }
+            if(currentColour == Color.LightGray) 
+            { 
+                this.BackColor = Color.White;
+                return;
+            }
+        }
+
     }
 }

@@ -21,14 +21,21 @@ namespace SquareRootsSolver
         {
             InitializeComponent();
 
-            GridCell gridCell = new GridCell();
+            for (int x = 40 + 40; x < 40 + 4 * 40; x += 40)
+            {
+                for (int y = 40 + 40; y < 40 + 40 * 4; y+=40)
+                {
+                    GridCell gridCell = new GridCell();
 
-            gridCell.PositionX = 70;
-            gridCell.PositionY = 70;
+                    gridCell.PositionX = x;
+                    gridCell.PositionY = y;
 
-            gridCell.Location = new Point(gridCell.PositionX - gridCell.Width/2, gridCell.PositionY - gridCell.Height/2);
+                    gridCell.Location = new Point(gridCell.PositionX - gridCell.Width / 2, gridCell.PositionY - gridCell.Height / 2);
 
-            this.Controls.Add(gridCell);
+                    this.Controls.Add(gridCell);
+                }
+            }
+            
         }
 
         
