@@ -1,0 +1,49 @@
+#~~ ignore file
+
+# We wish to only commit .cs, .csproj, vjox (or whatever) and .sln files as well as the images used in the Images folder
+
+*.exe
+##*.bmp
+*.png
+##*.in
+*.csv
+*~
+#*.rc
+*.log
+#*.txt
+*.xlsx
+*.lnk
+*.xpm
+#*.ico#
+
+# Visual Source Safe files
+*.scc
+*.vspscc
+*.vssscc
+
+
+# ignore visual studio build dirs
+PORSELIN/Debug
+PORSELIN/Release
+/Debug
+/Release
+
+# ignore other visual studio files
+*.suo
+*.user
+*.sdf
+*.opensdf
+*.aps
+UpgradeLog.*
+
+
+# ignore extra dirs
+UniformSpreadTest/
+ThreadTest/
+Test_DLL/
+PORSELIN/_UpgradeReport_Files/
+Backup/
+Backup1/
+bin/
+obj/
+
