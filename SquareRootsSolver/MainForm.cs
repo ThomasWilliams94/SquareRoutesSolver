@@ -15,13 +15,15 @@ namespace SquareRootsSolver
 
         #region Members
 
+        List<GridCell> itsGridCells;
+
         #endregion
 
         public MainForm()
         {
             InitializeComponent();
 
-
+            itsGridCells = new List<GridCell>();
         }
 
         #region Public Methods
@@ -54,6 +56,7 @@ namespace SquareRootsSolver
                     gridCell.Location = new Point(gridCell.PositionX - gridCell.Width / 2, gridCell.PositionY - gridCell.Height / 2);
 
                     this.Controls.Add(gridCell);
+                    itsGridCells.Add(gridCell);
                 }
             }
         }
@@ -66,14 +69,12 @@ namespace SquareRootsSolver
             // temporary removal of controls
             // Maybe have a list of GridCells belonging to MainForm, and
             // remove those. Then .Clear() that list before adding in new ones. 
-            foreach (Control control in this.Controls)
+            foreach (GridCell gridCell in itsGridCells)
             {
-                if (control is GridCell)
-                {
-                    this.Controls.Remove(control);
-                }
-                
+                this.Controls.Remove(gridCell);                               
             }
+
+            itsGridCells.Clear();
 
             NewGridDialog newGridDialog = new NewGridDialog(this);
 
